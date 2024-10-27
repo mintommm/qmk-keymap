@@ -32,7 +32,8 @@ enum custom_keycodes {
   RAISE,
   ADJUST,
   LSFT_SPC,
-  RSFT_ENT
+  RSFT_ENT,
+  LGUI_LALT
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -44,7 +45,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LCTL,    KC_Z,    KC_X,    KC_C,    KC_V, KC_SCLN,                         KC_G,    KC_D,    KC_M,    KC_J,    KC_B, KC_QUOT,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LALT,   LOWER,LSFT_SPC,   RSFT_ENT,   RAISE, KC_BSPC
+                                        LGUI_LALT,   LOWER,LSFT_SPC,   RSFT_ENT,   RAISE, KC_BSPC
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -93,6 +94,9 @@ static bool space_pressed = false;
 static uint16_t space_pressed_time = 0;
 static bool enter_pressed = false;
 static uint16_t enter_pressed_time = 0;
+static bool lguilalt_pressed = false;
+static uint16_t lguilalt_pressed_time = 0;
+
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
@@ -107,7 +111,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         layer_off(_LOWER);
         update_tri_layer(_LOWER, _RAISE, _ADJUST);
 
-        if (lower_pressed && (TIMER_DIFF_16(record->event.time, lower_pressed_time) < TAPPING_TERM)) {
+        if (lower_pressed &&
+            TIMER_DIFF_16(record->event.time,
+                          lower_pressed_time) < TAPPING_TERM) {
           tap_code(KC_INTERNATIONAL_5);
           tap_code(KC_LANGUAGE_2);
         }
@@ -127,7 +133,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         layer_off(_RAISE);
         update_tri_layer(_LOWER, _RAISE, _ADJUST);
 
-        if (raise_pressed && (TIMER_DIFF_16(record->event.time, raise_pressed_time) < TAPPING_TERM)) {
+        if (raise_pressed &&
+            TIMER_DIFF_16(record->event.time,
+                          raise_pressed_time) < TAPPING_TERM) {
           tap_code(KC_INTERNATIONAL_4);
           tap_code(KC_LANGUAGE_1);
 
@@ -158,7 +166,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         register_code(KC_LSFT);
       } else {
         unregister_code(KC_LSFT);
-        if (space_pressed && (TIMER_DIFF_16(record->event.time, space_pressed_time) < TAPPING_TERM)) {
+        if (space_pressed &&
+            TIMER_DIFF_16(record->event.time,
+                          space_pressed_time) < TAPPING_TERM) {
           tap_code(KC_SPC);
         }
         space_pressed = false;
@@ -173,10 +183,44 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         register_code(KC_RSFT);
       } else {
         unregister_code(KC_RSFT);
-        if (enter_pressed && (TIMER_DIFF_16(record->event.time, enter_pressed_time) < TAPPING_TERM)) {
+        if (enter_pressed &&
+            TIMER_DIFF_16(record->event.time,
+                          enter_pressed_time) < TAPPING_TERM) {
           tap_code(KC_ENT);
         }
         enter_pressed = false;
+      }
+      return false;
+      break;
+
+    case LGUI_LALT:
+      if (record->event.pressed) {
+        if (lguilalt_pressed &&
+            TIMER_DIFF_16(record->event.time, lguilalt_pressed_time) <
+                TAPPING_TERM * 2) {
+          // 1回目タップ後に押したとき
+          // 1回目のタップのフラグがオン &
+          // 最初のキー押下から2回目のキー押下までの時間が TAPPING_TERM
+          // の2倍未満ならダブルタップ目と判断する
+          lguilalt_pressed_time = record->event.time;
+          register_code(KC_LGUI);
+        } else {
+          lguilalt_pressed_time = record->event.time;
+          register_code(KC_LALT);
+        }
+        lguilalt_pressed = false;
+      } else {
+        if (!lguilalt_pressed &&
+            TIMER_DIFF_16(record->event.time, lguilalt_pressed_time) <
+                TAPPING_TERM) {
+          // 1回目をタップで離したとき
+          // 1回目のタップのフラグがオフ &
+          // 最初のキー押下からキーを離した時までの時間が TAPPING_TERM
+          // 未満ならタップと判断する
+          lguilalt_pressed = true;
+        }
+        unregister_code(KC_LGUI);
+        unregister_code(KC_LALT);
       }
       return false;
       break;
