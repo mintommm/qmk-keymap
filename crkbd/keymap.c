@@ -141,9 +141,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
           // chromeOS用、LCTLだと物理キーで使ってるLCTLと競合してここでUnregisterされる可能性があるのでRCTLを使う
           // 副作用としてWindowsで半角スペースが入力される。Macはわからない
+          register_code(KC_RSFT);
           register_code(KC_RCTL);
           tap_code(KC_SPC);
           unregister_code(KC_RCTL);
+          unregister_code(KC_RSFT);
         }
         raise_pressed = false;
       }
