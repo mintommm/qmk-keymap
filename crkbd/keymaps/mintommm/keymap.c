@@ -33,17 +33,19 @@ enum custom_keycodes {
   ADJUST,
   LSFT_SPC,
   RSFT_ENT,
-  LGUI_LALT
+  LGUI_LALT,
+  LPRN_LABK,
+  RPRN_RABK
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_DEFAULT] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_ESC,    KC_Q,    KC_L,    KC_U, KC_COMM,  KC_DOT,                         KC_F,    KC_W,    KC_R,    KC_Y,    KC_P,  KC_GRV,
+       KC_ESC,    KC_Q,    KC_L,    KC_U, KC_COMM, KC_QUOT,                         KC_F,    KC_W,    KC_R,    KC_Y,    KC_P,  KC_GRV,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
        KC_TAB,    KC_E,    KC_I,    KC_A,    KC_O, KC_MINS,                         KC_K,    KC_T,    KC_N,    KC_S,    KC_H, KC_SLSH,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL,    KC_Z,    KC_X,    KC_C,    KC_V, KC_SCLN,                         KC_G,    KC_D,    KC_M,    KC_J,    KC_B, KC_QUOT,
+      KC_LCTL,    KC_Z,    KC_X,    KC_C,    KC_V, KC_SCLN,                         KC_G,    KC_D,    KC_M,    KC_J,    KC_B,  KC_EQL,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                         LGUI_LALT,   LOWER,LSFT_SPC,   RSFT_ENT,   RAISE, KC_BSPC
                                       //`--------------------------'  `--------------------------'
@@ -51,11 +53,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_LOWER] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-   LCTL(KC_W),    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                      KC_LBRC, KC_RBRC,  KC_EQL, KC_PIPE, KC_BSLS,  KC_GRV,
+   LCTL(KC_W),    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_BSPC,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,                      KC_LPRN, KC_RPRN, KC_PPLS, KC_PMNS, KC_ASTR, KC_SLSH,
+      KC_BSPC,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT,  KC_ENT,                        KC_LT,   KC_GT, KC_CIRC, KC_AMPR, KC_UNDS, KC_QUOT,
+      _______, KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT,  KC_ENT,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           _______, _______, _______,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
@@ -63,11 +65,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_RAISE] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      KC_LGUI,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                      KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,  KC_DEL,
+      XXXXXXX, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_LBRC, KC_RBRC, XXXXXXX, XXXXXXX, XXXXXXX,  KC_DEL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_PSCR,   KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,                      KC_QUES, KC_HOME, KC_PGDN, KC_PGUP,  KC_END, XXXXXXX,
+      XXXXXXX, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,                   LPRN_LABK,RPRN_RABK, XXXXXXX, XXXXXXX, XXXXXXX, KC_BSLS,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______,  KC_F11,  KC_F12, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_SPC,  KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, XXXXXXX,
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                       KC_SPC, KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           _______, _______, _______,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
@@ -75,11 +77,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_ADJUST] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX,   KC_P0,   KC_P7,   KC_P8,   KC_P9, KC_PDOT,                      XXXXXXX, XXXXXXX, KC_EQL,  XXXXXXX, XXXXXXX, LGUI(KC_L),
+        KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX,   KC_P0,   KC_P4,   KC_P5,   KC_P6, KC_COMM,                      XXXXXXX, XXXXXXX, KC_PPLS, KC_PMNS, KC_PAST, KC_PSLS,
+        KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,  KC_F12,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______,   KC_P0,   KC_P1,   KC_P2,   KC_P3, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      _______, KC_HOME, KC_PGDN, KC_PGUP,  KC_END,  KC_ENT,                       KC_SPC, KC_HOME, KC_PGDN, KC_PGUP,  KC_END, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           _______, _______, _______,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
@@ -97,7 +99,6 @@ static uint16_t enter_pressed_time = 0;
 static bool lguilalt_pressed = false;
 static uint16_t lguilalt_pressed_time = 0;
 
-
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case LOWER:
@@ -114,13 +115,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (lower_pressed &&
             TIMER_DIFF_16(record->event.time,
                           lower_pressed_time) < TAPPING_TERM) {
-          tap_code(KC_INTERNATIONAL_5);
-          tap_code(KC_LANGUAGE_2);
+          tap_code(KC_INTERNATIONAL_5); // 「無変換」キー
+          tap_code(KC_LANGUAGE_2); // 「かな」キー
         }
         lower_pressed = false;
       }
       return false;
-      break;
 
     case RAISE:
       if (record->event.pressed) {
@@ -136,11 +136,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (raise_pressed &&
             TIMER_DIFF_16(record->event.time,
                           raise_pressed_time) < TAPPING_TERM) {
-          tap_code(KC_INTERNATIONAL_4);
-          tap_code(KC_LANGUAGE_1);
+          tap_code(KC_INTERNATIONAL_4); // 「変換」キー
+          tap_code(KC_LANGUAGE_1); // 「英数」キー
 
           // chromeOS用、LCTLだと物理キーで使ってるLCTLと競合してここでUnregisterされる可能性があるのでRCTLを使う
-          // 副作用としてWindowsで全角スペースが入力される。Macはわからない
+          // 副作用としてWindowsで半角スペースが入力される。Macはわからない
           register_code(KC_RSFT);
           register_code(KC_RCTL);
           tap_code(KC_SPC);
@@ -150,7 +150,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         raise_pressed = false;
       }
       return false;
-      break;
 
     case ADJUST:
       if (record->event.pressed) {
@@ -159,7 +158,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         layer_off(_ADJUST);
       }
       return false;
-      break;
 
     case LSFT_SPC:
       if (record->event.pressed) {
@@ -176,7 +174,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         space_pressed = false;
       }
       return false;
-      break;
 
     case RSFT_ENT:
       if (record->event.pressed) {
@@ -193,7 +190,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         enter_pressed = false;
       }
       return false;
-      break;
 
     case LGUI_LALT:
       if (record->event.pressed) {
@@ -225,7 +221,26 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         unregister_code(KC_LALT);
       }
       return false;
-      break;
+
+    case LPRN_LABK:
+      if (record->event.pressed) {
+        if (get_mods() & MOD_MASK_SHIFT) {
+          tap_code16(KC_LABK);
+        } else {
+          tap_code16(KC_LPRN);
+        }
+      }
+      return false;
+
+    case RPRN_RABK:
+      if (record->event.pressed) {
+        if (get_mods() & MOD_MASK_SHIFT) {
+          tap_code16(KC_RABK);
+        } else {
+          tap_code16(KC_RPRN);
+        }
+      }
+      return false;
 
     default:
       if (record->event.pressed) {
@@ -237,4 +252,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
   }
   return true;
-}
+};
+
+const key_override_t comma_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_COMM, KC_DOT);
+
+// This globally defines all key overrides to be used
+const key_override_t *key_overrides[] = {
+	&comma_key_override
+};
