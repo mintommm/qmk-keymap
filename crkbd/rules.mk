@@ -1,0 +1,2 @@
+DEFAULT_FOLDER = crkbd/rev1
+KEY_OVERRIDE_ENABLE = yes
